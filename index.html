@@ -2,29 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DataLab Certificate Verification</title>
+  <title>Certificate Validation</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
       padding-top: 80px;
+      background-color: #f4f4f4;
+      color: #001469;
+    }
+    h1 {
+      color: #E88209;
     }
     .status {
       font-size: 22px;
       font-weight: bold;
     }
     .valid {
-      color: green;
+      color: #00B140;
     }
     .invalid {
-      color: red;
+      color: #E88209;
+    }
+    .logo {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+    .container {
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+      margin-top: 20px;
+    }
+    .button {
+      padding: 10px 20px;
+      background-color: #001469;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .button:hover {
+      background-color: #E88209;
     }
   </style>
 </head>
 <body>
-  <h1>DataLab Program Certificate Verification</h1>
+  <img src="YOUR_LOGO_URL_HERE" alt="DataLab Logo" class="logo">
+  <h1>Certificate Validation</h1>
   <p>Enter the certificate ID to verify:</p>
-  <div id="result"></div>
+  <div class="container" id="result"></div>
 
   <script>
     const certId = new URLSearchParams(window.location.search).get("cert_id");
@@ -71,4 +101,3 @@
   </script>
 </body>
 </html>
-
