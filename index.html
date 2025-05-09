@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,49 +23,52 @@
 </head>
 <body>
   <h1>Certificate Validation</h1>
-  <div id="result" class="status">Validating...</div>
+  <p>Enter the certificate ID to verify:</p>
+  <div id="result"></div>
 
   <script>
     const certId = new URLSearchParams(window.location.search).get("cert_id");
     const resultDiv = document.getElementById("result");
 
     if (!certId) {
-      resultDiv.innerHTML = `<p class="invalid">❌ No certificate ID provided</p>`;
+        resultDiv.innerHTML = `<p class="invalid">❌ No certificate ID provided</p>`;
     } else {
-      const sheetID = "1bG8vHo7JsibLK7DvgInYNDU8FeQQVPklAe6Y4zrVSBI";
-      const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+        const sheetID = "1bG8vHo7JsibLK7DvgInYNDU8FeQQVPklAe6Y4zrVSBI"; // Your sheet ID
+        const sheetName = "Cert Verification"; // Specific sheet name
+        const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
-      fetch(sheetURL)
-        .then(res => res.text())
-        .then(raw => {
-          const json = JSON.parse(raw.substring(47, raw.length - 2));
-          const rows = json.table.rows;
+        fetch(sheetURL)
+            .then(res => res.text())
+            .then(raw => {
+                const json = JSON.parse(raw.substring(47, raw.length - 2));
+                const rows = json.table.rows;
 
-          let found = false;
-          for (const row of rows) {
-            const id = row.c[0]?.v?.trim();
-            const name = row.c[1]?.v?.trim();
+                let found = false;
+                for (const row of rows) {
+                    const id = row.c[0]?.v?.trim();
+                    const name = row.c[1]?.v?.trim();
 
-            if (id === certId) {
-              found = true;
-              resultDiv.innerHTML = `
-                <p class="valid">✅ Certificate is Valid</p>
-                <p><strong>ID:</strong> ${id}</p>
-                <p><strong>Name:</strong> ${name}</p>
-              `;
-              break;
-            }
-          }
+                    if (id === certId) {
+                        found = true;
+                        resultDiv.innerHTML = `
+                            <p class="valid">✅ Certificate is Valid</p>
+                            <p><strong>ID:</strong> ${id}</p>
+                            <p><strong>Name:</strong> ${name}</p>
+                        `;
+                        break;
+                    }
+                }
 
-          if (!found) {
-            resultDiv.innerHTML = `<p class="invalid">❌ Certificate ID not found</p>`;
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          resultDiv.innerHTML = `<p class="invalid">❌ Error fetching data</p>`;
-        });
+                if (!found) {
+                    resultDiv.innerHTML = `<p class="invalid">❌ Certificate ID not found</p>`;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                resultDiv.innerHTML = `<p class="invalid">❌ Error fetching data</p>`;
+            });
     }
   </script>
 </body>
 </html>
+
